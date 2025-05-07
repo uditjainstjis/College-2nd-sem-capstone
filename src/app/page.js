@@ -1,103 +1,111 @@
-import Image from "next/image";
+"use client"
 
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { HeroParallax } from "../components/ui/hero-parallax"
+import { Spotlight } from "../components/ui/spotlight"
+import { Button } from "../components/ui/button"
+import { Textarea } from "../components/ui/textarea"
+import { travelPlaces, mock } from "../components/ui/data"
+import {AIchat} from './components/AIchat'
+import { MessageSquare, Send, X, MapPin, Users } from "lucide-react"
+import { Features } from "./components/features"
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [input, setInput] = useState("")
+  const [chatOpen, setChatOpen] = useState(false)
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "Hi there! I'm your AI travel assistant. Tell me what kind of trip you're looking for, and I'll help you plan it!" }
+  ])
+  const [loading, setLoading] = useState(false)
+  const [recommendations, setRecommendations] = useState([])
+  const [showResults, setShowResults] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const handleSendMessage = async () => {
+    if (!input.trim()) return
+    
+    const userMessage = { role: "user", content: input }
+    setMessages(prev => [...prev, userMessage])
+    setInput("")
+    setLoading(true)
+    setTimeout(() => {
+      const aiResponse = {
+        role: "assistant", 
+        content: `Based on your interest in "${userMessage.content}", I recommend checking out these destinations! I've added them to your recommendations.`
+      }
+      setMessages(prev => [...prev, aiResponse])
+      setRecommendations(mock)
+      setShowResults(true)
+      setLoading(false)
+    }, 1500)
+  }
+
+  // Handle generate trip button
+  const handleGenerateTrip = () => {
+    if (input.trim()) {
+      setChatOpen(true)
+      handleSendMessage()
+    }
+  }
+
+  return (
+    <main className="min-h-screen w-full bg-white text-black">
+      <HeroParallax products={travelPlaces}/>
+      <Features/>
+      {/* AI Chat Interface */}
+      <AIchat chatOpen={chatOpen} setChatOpen={setChatOpen} messages={messages} loading={loading} setLoading={setLoading} handleSendMessage={handleSendMessage} input={input} setInput={setInput}/>
+
+      {/* Trip Recommendations Results */}
+      {showResults && (
+        <motion.div 
+          className="py-16 px-4 bg-gray-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-2">Your Perfect Trips</h2>
+            <p className="text-center text-gray-600 mb-12">Based on your preferences, we've curated these trips just for you</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recommendations.map((rec, index) => (
+                <motion.div 
+                  key={rec.id}
+                  className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 + 0.3 }}
+                >
+                  <div className="h-48 overflow-hidden">
+                    <img src={rec.image} alt={rec.title} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-1">{rec.title}</h3>
+                    <div className="flex items-center text-gray-600 mb-3">
+                      <MapPin size={16} className="mr-1" />
+                      <span>{rec.location}</span>
+                    </div>
+                    
+                    <div className="flex justify-between text-sm mb-4">
+                      <div className="">{rec.duration}</div>
+                      <div className="font-bold text-blue-600">{rec.price}</div>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {rec.tags.map(tag => (
+                        <span key={tag} className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    <Button className="w-full">View Details</Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </main>
+  )
 }
