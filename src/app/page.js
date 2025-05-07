@@ -3,12 +3,10 @@ import Image from "next/image"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { HeroParallax } from "../components/ui/hero-parallax"
-import { Spotlight } from "../components/ui/spotlight"
 import { Button } from "../components/ui/button"
-import { Textarea } from "../components/ui/textarea"
 import { travelPlaces, mock } from "../components/ui/data"
 import {AIchat} from './components/AIchat'
-import { MessageSquare, Send, X, MapPin, Users } from "lucide-react"
+import {MapPin} from "lucide-react"
 import { Features } from "./components/features"
 export default function Home() {
   const [input, setInput] = useState("")

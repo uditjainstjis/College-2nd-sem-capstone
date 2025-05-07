@@ -71,7 +71,7 @@ export const mock=[
     id: 1,
     title: "Beach Paradise",
     location: "Bali, Indonesia",
-    image: "https://images.unsplash.com/photo-1707006050483-a2eb38b1db92",
+    image: "/im1.jpeg",
     price: "$1,200",
     duration: "7 days",
     tags: ["beach", "relaxation", "culture"]
@@ -80,7 +80,7 @@ export const mock=[
     id: 2,
     title: "Mountain Retreat",
     location: "Swiss Alps",
-    image: "https://images.unsplash.com/photo-1691433317101-fe4daf64b522",
+    image: "im2.jpeg",
     price: "$1,800",
     duration: "5 days",
     tags: ["mountains", "hiking", "scenic"]
@@ -89,7 +89,7 @@ export const mock=[
     id: 3,
     title: "Historical Journey",
     location: "Rome, Italy",
-    image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5",
+    image: "im3.jpeg",
     price: "$1,500",
     duration: "6 days",
     tags: ["history", "culture", "food"]
