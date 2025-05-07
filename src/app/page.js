@@ -1,5 +1,5 @@
 "use client"
-
+import Image from "next/image"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { HeroParallax } from "../components/ui/hero-parallax"
@@ -64,7 +64,7 @@ export default function Home() {
         >
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-2">Your Perfect Trips</h2>
-            <p className="text-center text-gray-600 mb-12">Based on your preferences, we've curated these trips just for you</p>
+            <p className="text-center text-gray-600 mb-12">Based on your preferences, weve curated these trips just for you</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {recommendations.map((rec, index) => (
@@ -76,7 +76,7 @@ export default function Home() {
                   transition={{ delay: index * 0.1 + 0.3 }}
                 >
                   <div className="h-48 overflow-hidden">
-                    <img src={rec.image} alt={rec.title} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                    <Image src={rec.image} alt={rec.title} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold mb-1">{rec.title}</h3>
