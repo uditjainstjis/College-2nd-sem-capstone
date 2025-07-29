@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 
+const API_BASE = "https://college-2nd-sem-capstone-1.onrender.com/"; // Replace with your Render backend URL
+
 export default function FloatingChat({ onDestinationGenerated, isOpen, setIsOpen }) {
   const [messages, setMessages] = useState([
     {
@@ -36,7 +38,7 @@ export default function FloatingChat({ onDestinationGenerated, isOpen, setIsOpen
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

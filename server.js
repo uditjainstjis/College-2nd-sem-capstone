@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import 'dotenv/config';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +17,7 @@ const openai = new OpenAI({
 
 app.use(express.json());
 app.use(express.static('dist'));
+app.use(cors());
 
 // Chat endpoint
 app.post('/api/chat', async (req, res) => {
